@@ -1,5 +1,6 @@
 # Sruta
-## श्रुता ( Sh-r-uu-t-ah ) - Knowledge derived from instruction and reasoning
+## श्रुता ( Sh-r-uu-t-ah ) 
+> Knowledge derived from instruction and reasoning
 
 
 ## Table of Contents
