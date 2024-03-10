@@ -9,6 +9,11 @@ export const Nonce = z.object({
   nonce: z.number(),
 });
 
+export const Signature = z.object({
+  field : z.string(),
+  scalar : z.string()
+})
+
 export const InAddress = User.pick({
   address: true,
 });
@@ -29,7 +34,7 @@ export const InLogin = User.partial().omit({
   updatedAt : true,
   nonce: true
 }).extend({
-  signature : z.string()
+  signature : Signature
 }).required({
   address : true,
   signature : true,

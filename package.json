@@ -21,9 +21,10 @@
     "@hapi/boom": "^10.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
-    "ethers": "^6.11.1",
     "fastify": "^4.21.0",
+    "mina-signer": "^3.0.4",
     "mongoose": "^7.4.4",
+    "o1js": "^0.17.0",
     "zod": "^3.22.2",
     "zod-to-json-schema": "^3.21.4"
   },

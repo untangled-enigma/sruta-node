@@ -1,4 +1,3 @@
-import { verifyMessage } from "ethers"
 import { ICtrl } from "../../types/controller";
 import * as ITF from "./interfaces";
 import User from "../user/model";
@@ -31,19 +30,27 @@ export const RefreshToken: ICtrl<
 };
 
 export const Login: ICtrl<ITF.OutRegister, ITF.InLogin> = async (req) => {
+  const minaSigner = await import("mina-signer");
   const body = req.body;
-  const  signature = body.signature
-  const userAddress = body.address.toLocaleLowerCase()
-  
+  var signerClient = new minaSigner.Client({ network: "mainnet" });
+  const publicKey = body.address
+
   let nonce = 0;
   //check if user already present by address
-  let user = await User.findOne({ address : userAddress });
+  let user = await User.findOne({ address : publicKey });
   if(user) {
     nonce = user.nonce
   }
 
-  if ( userAddress !== verifyMessage(nonce.toString(),signature).toLowerCase() )
-  {
+  const verifyBody = {
+    data: nonce.toString(), 
+    publicKey , 
+    signature: body.signature
+  };
+
+  const verifyResult = signerClient.verifyMessage(verifyBody);
+
+  if(!verifyResult) {
     throw new Error("Invalid signature");
   }
   
@@ -51,26 +58,27 @@ export const Login: ICtrl<ITF.OutRegister, ITF.InLogin> = async (req) => {
   await User.create({
         name : body.name,
         email : body.email,
-        address : body.address.toLocaleLowerCase(),
+        address : body.address,
         nonce
     });
   }
 
   //increment nonce of the user
-  await User.findOneAndUpdate({ address : userAddress }, {nonce : ++nonce});
+  await User.findOneAndUpdate({ address : body.address }, {nonce : ++nonce});
 
   const token = Utils.JWT.Sign(user);
 
   return { token };
+
 };
 
-export const Nonce:  ICtrl<ITF.OutNonce, ITF.InAddress  > = async (req) => {
+export const Nonce: ICtrl<ITF.OutNonce, ITF.InAddress> = async (req) => {
   const { address } = req.params;
   let nonce = 0
-  const user = await User.findOne({ address: address.toLowerCase() });
-  if(user) {
+  const user = await User.findOne({ address: address });
+  if (user) {
     nonce = user.nonce
   }
 
-  return {nonce}
+  return { nonce }
 }
