@@ -1,6 +1,6 @@
-# Ultralane backend
+# Sruta
+## श्रुता ( Sh-r-uu-t-ah ) - Knowledge derived from instruction and reasoning
 
-A template project for building a Node.js API using Fastify and MongoDB, with user CRUD operations, JWT authentication, and other basic CRUD functionalities.
 
 ## Table of Contents
 
