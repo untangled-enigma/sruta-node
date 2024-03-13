@@ -1,6 +1,6 @@
 import { ICtrl } from "../../types/controller";
 import * as ITF from "./interfaces";
-import User from "../user/model";
+import { UserModel as User } from "../user/model";
 import Utils from "../../utils";
 import { IUser } from "../user/interfaces";
 
