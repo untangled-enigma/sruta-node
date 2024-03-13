@@ -14,7 +14,6 @@ import * as ITF from "./interfaces";
 
 
 export const TreasureMap: ICtrl<ITF.OutTreasureMap> = async (req) => {
-    const o1js = await import("o1js");
     const points =  [
         { x: 2000, y: 3000 },
         { x: 2000, y: 3500},
@@ -30,8 +29,7 @@ export const TreasureMap: ICtrl<ITF.OutTreasureMap> = async (req) => {
         { x: -1500, y: 2000 },
         { x: -2000, y: 2100 } ,
     ]
-
-    // let leaves = points.map( point => o1js.Poseidon.hash( [o1js.Field(point.x),o1js.Field(point.y)] ).toString()  )
    
     return {  points  }
 }
+
