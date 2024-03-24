@@ -38,8 +38,8 @@
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/SauravKanchan/ultralane-backend.git
-   cd ultralane-backend
+   git clone https://github.com/untangled-enigma/sruta-node.git
+   cd sruta-node
    ```
 
 2. Install dependencies:
