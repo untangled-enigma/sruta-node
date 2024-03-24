@@ -1,9 +1,9 @@
 {
-  "name": "ultralane-backend",
+  "name": "sruta-node",
   "version": "1.0.0",
   "main": "./build/index.js",
-  "repository": "https://github.com/SauravKanchan/ultralane-backend.git",
-  "author": "Saurav Kanchan <sauravnk30@gmail.com>",
+  "repository": "https://github.com/untangled-enigma/sruta-node",
+  "author": "steel-feel <himankjain@yahoo.in>",
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
