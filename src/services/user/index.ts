@@ -19,3 +19,10 @@ export const TreasureMap = {
     schema: Schemas.TreasureMap ,
   } as RouteOptions;
 
+export const UserActivity = {
+  method : "POST",
+  url : "/api/user/activity",
+  handler : Controller.UserActivity,
+  onRequest: (f) => f.jwtVerify(),
+  schema: Schemas.UserActivity ,
+} as RouteOptions;

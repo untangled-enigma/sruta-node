@@ -59,3 +59,30 @@ export const OutTreasureMap = z.object({
 })
 
 export type OutTreasureMap = z.infer<typeof OutTreasureMap>;
+
+export const ACTIVITIES = z.enum(["COLLECT", "FIGHT"])
+
+export const UserActivity = z.object({
+  id: z.string(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+  userId: z.instanceof(Schema.Types.ObjectId),
+  type : ACTIVITIES,
+  content: z.string(),
+})
+
+export type IUserActivity = z.infer<typeof UserActivity>;
+ 
+export const InUserActivity = UserActivity.pick({
+  content : true,
+  type : true,
+})
+
+export type IInUserActivity = {
+  body: z.infer<typeof InUserActivity>;
+};
+
+
+
+export type InUserActivity = z.infer<typeof InUserActivity>;
+ 

@@ -1,4 +1,4 @@
-import { Schema, model, models, ObjectId } from "mongoose";
+import { Schema, model, models } from "mongoose";
 import * as ITF from "./interfaces";
 import Plugins from "../../plugins";
 
@@ -12,13 +12,12 @@ const UserSchema = new Schema<ITF.IUser>(
   Plugins.Mongo.Normalize()
 );
 
-const ItemTxnSchema = new Schema<ITF.IItemTxn>(
-  {
+const UserActivitySchema = new Schema<ITF.IUserActivity>({
+    type : {type :String, required : true },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    hash: { type: String, },
-    content: { type: String, },
-  }
-)
+    content : {type: String ,  required : true},
+},
+Plugins.Mongo.Normalize())
 
 export const UserModel = models?.User ?? model<ITF.IUser>("User", UserSchema);
-export const ItemTxnModel = models?.ItemTxn ?? model<ITF.IItemTxn>("ItemTxn", ItemTxnSchema);
+export const UserActivityModel = models?.UserActivityModel ?? model<ITF.IUserActivity>("UserActivity", UserActivitySchema);

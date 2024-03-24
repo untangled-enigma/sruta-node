@@ -23,3 +23,14 @@ export const TreasureMap = {
     200: ITF.OutTreasureMap,
   },
 }  
+
+export const UserActivity = {
+  summary: "User Activity",
+  description: "API to record user game activity",
+  tags: ["User"],
+  headers: InHeaders,
+  body: ITF.InUserActivity,
+  response: {
+    200: ITF.OutMessage,
+  },
+}
