@@ -1,6 +1,8 @@
 import { Schema } from "mongoose";
 import { z } from "zod";
 
+import { InHeaders } from "../auth/interfaces";
+
 export const User = z.object({
   id: z.string(),
   name: z.string().default(""),
@@ -14,7 +16,6 @@ export const User = z.object({
 export const ItemTxn = z.object({
   id: z.string(),
   userId: z.instanceof(Schema.Types.ObjectId),
-  hash: z.string(),
   content: z.string(),
 });
 
@@ -45,7 +46,8 @@ export type InItemtxn = z.infer<typeof InItemtxn>;
 
 /**
  * Treasure Map
- * 
+ * x : x-cordinate
+ * y : y-cordinate
  * */
 
 export const Point = z.object({
@@ -55,7 +57,15 @@ export const Point = z.object({
 
 export const OutTreasureMap = z.object({
   points: z.array(Point),
-  // leaves: z.array(z.string())
 })
 
 export type OutTreasureMap = z.infer<typeof OutTreasureMap>;
+
+export const CommitItems = z.object({
+  items: z.array(z.string()),
+})
+
+export type InCommitItems = {
+  body: z.infer<typeof CommitItems>,
+  headers: z.infer<typeof InHeaders>;
+};

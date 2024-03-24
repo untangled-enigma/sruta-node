@@ -2,16 +2,16 @@ import * as ITF from "./interfaces";
 import { InHeaders } from "../auth/interfaces"
 
 
-// export const CommitTreasure = {
-//     description: "Hero commit recent found treasure",
-//     tags: ["User"],
-//     summary: "Commit Treasure",
-//     headers: InHeaders,
-//     body: ITF.InCommitItems ,
-//     response: {
-//       200: ITF.OutMessage,
-//     },
-//   };
+export const CommitTreasure = {
+    description: "Hero commit recent found treasure",
+    tags: ["User"],
+    summary: "Commit Treasure",
+    headers: InHeaders,
+    body: ITF.CommitItems ,
+    response: {
+      200: ITF.OutMessage,
+    },
+  };
 
 //TODO: Add mapId as param for specific MAP
 export const TreasureMap = {

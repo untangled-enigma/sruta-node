@@ -15,10 +15,9 @@ const UserSchema = new Schema<ITF.IUser>(
 const ItemTxnSchema = new Schema<ITF.IItemTxn>(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    hash: { type: String, },
-    content: { type: String, },
+    content: { type: String, }, /// For now, put item Ids as stringified form like 1,2,3,4....
   }
 )
 
 export const UserModel = models?.User ?? model<ITF.IUser>("User", UserSchema);
-export const ItemTxnModel = models?.ItemTxn ?? model<ITF.IItemTxn>("ItemTxn", ItemTxnSchema);
+export const ItemTxnModel = models?.ItemTxn ?? model<ITF.IItemTxn>("ItemTransaction", ItemTxnSchema);
