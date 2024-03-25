@@ -2,7 +2,7 @@
 import { ICtrl } from "../../types/controller";
 import Utils from "../../utils";
 import * as ITF from "./interfaces";
-import { ItemTxnModel as ItemTransactions, UserModel as User } from "../user/model";
+import { ItemTxnModel as ItemTransactions, UserModel as User, UserPointModel  } from "../user/model";
 import { Types } from "mongoose";
 import { InToken } from "../auth/interfaces";
 
@@ -34,6 +34,20 @@ export const CommitTreasure: ICtrl<ITF.OutMessage, ITF.InCommitItems> = async (r
         content
     })
 
+    //fetch user points
+    const userPointsObj = await UserPointModel.findById({_id}) as ITF.IUserPoint;
+    let userScore = 0;
+    if(userPointsObj)
+    {
+        userScore = userPointsObj.score
+    }
+    /**
+     * NOTE: For now, each item is worth 100 points
+     */
+
+    userScore += req.body.items.length * 100
+    await UserPointModel.findOneAndUpdate({_id}, { score:userScore }, {upsert:true})
+    
     return { message: "Item commited successfully" }
 }
 

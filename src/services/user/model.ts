@@ -19,5 +19,25 @@ const ItemTxnSchema = new Schema<ITF.IItemTxn>(
   }
 )
 
+/// User Points
+const UserPointSchema = new Schema<ITF.IUserPoint>(
+  {
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    score: { type: Number, default: 0  },
+  },
+  Plugins.Mongo.Normalize()
+)
+
+/// Root Hash transaction
+const ScoreTransactionSchema = new Schema<ITF.IScoreTransaction>(
+  {
+    hash: { type: String,unique: true },
+  },
+  Plugins.Mongo.Normalize()
+)
+
+
 export const UserModel = models?.User ?? model<ITF.IUser>("User", UserSchema);
 export const ItemTxnModel = models?.ItemTxn ?? model<ITF.IItemTxn>("ItemTransaction", ItemTxnSchema);
+export const UserPointModel = models?.UserPoint ?? model<ITF.IUserPoint>("UserPoint", UserPointSchema);
+export const ScoreTransactionModel = models?.ScoreTransaction ?? model<ITF.IScoreTransaction>("ScoreTransaction", ScoreTransactionSchema);

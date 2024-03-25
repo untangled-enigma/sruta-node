@@ -78,3 +78,19 @@ export const UserToken = z.object({
 })
 export type IUserToken = z.infer<typeof UserToken>;
 
+//~~~~~~ User Score ~~~~~
+export const UserPoint = z.object({
+  userId: z.instanceof(Schema.Types.ObjectId),
+  score : z.number(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+});
+export type IUserPoint = z.infer<typeof UserPoint>;
+
+
+// Type to store root hashes
+export const ScoreTransaction = z.object({
+  hash : z.string(),
+  createdAt: z.string().optional(),
+});
+export type IScoreTransaction = z.infer<typeof ScoreTransaction>;
