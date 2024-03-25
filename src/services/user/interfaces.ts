@@ -48,11 +48,13 @@ export type InItemtxn = z.infer<typeof InItemtxn>;
  * Treasure Map
  * x : x-cordinate
  * y : y-cordinate
+ * key: Item key
  * */
 
 export const Point = z.object({
   x : z.number(),
   y : z.number(),
+  key : z.number()
 })
 
 export const OutTreasureMap = z.object({
