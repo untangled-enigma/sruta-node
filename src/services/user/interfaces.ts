@@ -69,3 +69,10 @@ export type InCommitItems = {
   body: z.infer<typeof CommitItems>,
   headers: z.infer<typeof InHeaders>;
 };
+
+export const UserToken = z.object({
+  "_id": z.string(),
+  "address" : z.string()
+})
+export type IUserToken = z.infer<typeof UserToken>;
+

@@ -2,8 +2,9 @@
 import { ICtrl } from "../../types/controller";
 import Utils from "../../utils";
 import * as ITF from "./interfaces";
-import { ItemTxnModel as ItemTransactions } from "../user/model";
+import { ItemTxnModel as ItemTransactions, UserModel as User } from "../user/model";
 import { Types } from "mongoose";
+import { InToken } from "../auth/interfaces";
 
 const ITEMS = [
     { x: 2000, y: 3000, key: 1 },
@@ -24,42 +25,35 @@ const ITEMS = [
 export const CommitTreasure: ICtrl<ITF.OutMessage, ITF.InCommitItems> = async (req) => {
     //extract user
     const { authorization } = req.headers;
+    const {_id} =  Utils.JWT.extractJwtDetails(Utils.JWT.Decode(authorization ?? ""))
 
-    const user = Utils.JWT.Decode(authorization ?? "") as ITF.IUser;
-
-    // user.id
-
-    const body = req.body;
-
-    const content = body.items.join(",");
+    const content = req.body.items.join(",");
 
     await ItemTransactions.create({
-        userId: new Types.ObjectId(user.id),
+        userId: new Types.ObjectId(_id),
         content
     })
-
-    /// Check if 
 
     return { message: "Item commited successfully" }
 }
 
 
-export const TreasureMap: ICtrl<ITF.OutTreasureMap> = async (req) => {
-    const points = [
-        { x: 2000, y: 3000 },
-        { x: 2000, y: 3500 },
-        { x: 2500, y: 3500 },
-        { x: 2000, y: 2500 },
-        { x: 2000, y: -2000 },
-        { x: 2000, y: 4000 },
-        { x: 1500, y: 3500 },
-        { x: 1000, y: 3500 },
-        { x: 500, y: 3500 },
-        { x: 1000, y: 3000 },
-        { x: -1000, y: 2000 },
-        { x: -1500, y: 2000 },
-        { x: -2000, y: 2100 },
-    ]
+export const TreasureMap: ICtrl<ITF.OutTreasureMap, InToken > = async (req) => {
+    const { authorization } = req.headers;
+    const {_id} =  Utils.JWT.extractJwtDetails(Utils.JWT.Decode(authorization ?? ""))
+   
+    //fetch the items from db
+    const txns = await ItemTransactions.find({ userId : new Types.ObjectId(_id) })
+
+    const ItemKeys = txns.map((x)=> x.content)
+    let itemArray:string[] = [];
+
+    ItemKeys.forEach(x => {
+        itemArray = itemArray.concat(x.split(",") ) 
+    })
+
+    const itemSet = new Set(itemArray)
+    const points = ITEMS.filter((value)=> !itemSet.has(value.key.toString()) )
 
     return { points }
 }

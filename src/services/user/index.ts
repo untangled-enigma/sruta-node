@@ -8,6 +8,7 @@ export const CommitTreasure = {
     url: "/api/item/commit",
     handler: Controller.CommitTreasure,
     schema: Schemas.CommitTreasure ,
+    onRequest: (f) => f.jwtVerify(),
   } as RouteOptions;
 
 
