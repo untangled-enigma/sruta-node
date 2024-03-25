@@ -1,4 +1,4 @@
-import { SchemaOptions } from "mongoose";
+import mongoose,{ SchemaOptions } from "mongoose";
 
 export type NormalizeOptions = SchemaOptions<any> & {
   delete: string[];
@@ -21,3 +21,5 @@ export const Normalize = (otps?: NormalizeOptions): NormalizeReturn => ({
   },
   ...otps,
 });
+
+export const AutoIncrement = require('mongoose-sequence')(mongoose);

@@ -24,6 +24,7 @@
     "fastify": "^4.21.0",
     "mina-signer": "^3.0.4",
     "mongoose": "^7.4.4",
+    "mongoose-sequence": "^6.0.1",
     "o1js": "^0.17.0",
     "zod": "^3.22.2",
     "zod-to-json-schema": "^3.21.4"
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/mongoose": "^5.11.97",
+    "@types/mongoose-sequence": "^3.0.11",
     "@types/node": "^20.5.4",
     "nodemon": "^3.0.1",
     "rimraf": "^5.0.1",

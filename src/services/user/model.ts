@@ -1,4 +1,4 @@
-import { Schema, model, models, ObjectId } from "mongoose";
+import mongoose ,{ Schema, model, models, ObjectId } from "mongoose";
 import * as ITF from "./interfaces";
 import Plugins from "../../plugins";
 
@@ -7,10 +7,13 @@ const UserSchema = new Schema<ITF.IUser>(
     name: { type: String, },
     email: { type: String, },
     address: { type: String, required: true, index: true, unique: true, },
-    nonce: { type: Number, required: true, default: 0 }
+    nonce: { type: Number, required: true, default: 0 },
+    tIndex: {type: Number,required: false,}
   },
   Plugins.Mongo.Normalize()
 );
+
+UserSchema.plugin(Plugins.Mongo.AutoIncrement, {inc_field : "tIndex"})
 
 const ItemTxnSchema = new Schema<ITF.IItemTxn>(
   {

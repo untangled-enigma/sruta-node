@@ -9,6 +9,7 @@ export const User = z.object({
   email: z.string().email().default(""),
   nonce: z.number().default(0),
   address: z.string(),
+  tIndex: z.number().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });
