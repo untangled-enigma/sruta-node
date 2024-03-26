@@ -1,8 +1,9 @@
 import { ICtrl } from "../../types/controller";
 import * as ITF from "./interfaces";
-import { UserModel as User } from "../user/model";
+import { UserModel as User, UserPointModel } from "../user/model";
 import Utils from "../../utils";
 import { IUser } from "../user/interfaces";
+import { Types } from "mongoose";
 
 
 export const Token: ICtrl<ITF.OutToken, ITF.InToken> = async (req) => {
@@ -37,34 +38,38 @@ export const Login: ICtrl<ITF.OutRegister, ITF.InLogin> = async (req) => {
 
   let nonce = 0;
   //check if user already present by address
-  let user = await User.findOne({ address : publicKey });
-  if(user) {
+  let user = await User.findOne({ address: publicKey });
+  if (user) {
     nonce = user.nonce
   }
 
   const verifyBody = {
-    data: nonce.toString(), 
-    publicKey , 
+    data: nonce.toString(),
+    publicKey,
     signature: body.signature
   };
 
   const verifyResult = signerClient.verifyMessage(verifyBody);
 
-  if(!verifyResult) {
+  if (!verifyResult) {
     throw new Error("Invalid signature");
   }
-  
+
   if (!user) {
-  await User.create({
-        name : body.name,
-        email : body.email,
-        address : body.address,
-        nonce
+    const user = await User.create({
+      name: body.name,
+      email: body.email,
+      address: body.address,
+      nonce
+    });
+    await UserPointModel.create({
+      score:0,
+      userId: new Types.ObjectId(user._id),
     });
   }
 
   //increment nonce of the user
-  await User.findOneAndUpdate({ address : body.address }, {nonce : ++nonce});
+  await User.findOneAndUpdate({ address: body.address }, { nonce: ++nonce });
 
   const token = Utils.JWT.Sign(user);
 

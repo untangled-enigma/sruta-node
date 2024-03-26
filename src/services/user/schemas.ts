@@ -9,7 +9,7 @@ export const CommitTreasure = {
     headers: InHeaders,
     body: ITF.CommitItems ,
     response: {
-      200: ITF.OutMessage,
+      200: ITF.OutCommitItems,
     },
   };
 

@@ -60,6 +60,7 @@ export const Point = z.object({
 
 export const OutTreasureMap = z.object({
   points: z.array(Point),
+  score: z.number()
 })
 
 export type OutTreasureMap = z.infer<typeof OutTreasureMap>;
@@ -72,6 +73,12 @@ export type InCommitItems = {
   body: z.infer<typeof CommitItems>,
   headers: z.infer<typeof InHeaders>;
 };
+
+export const OutCommitItems = z.object({
+  score : z.number()
+})
+export type OutCommitItems = z.infer<typeof OutCommitItems>;
+
 
 export const UserToken = z.object({
   "_id": z.string(),

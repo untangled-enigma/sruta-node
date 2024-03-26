@@ -24,7 +24,7 @@ const ITEMS = [
 
 let ScoreTree: any;
 
-export const CommitTreasure: ICtrl<ITF.OutMessage, ITF.InCommitItems> = async (req) => {
+export const CommitTreasure: ICtrl<ITF.OutCommitItems, ITF.InCommitItems> = async (req) => {
     //extract user
     const { authorization } = req.headers;
     const { _id } = Utils.JWT.extractJwtDetails(Utils.JWT.Decode(authorization ?? ""))
@@ -60,7 +60,7 @@ export const CommitTreasure: ICtrl<ITF.OutMessage, ITF.InCommitItems> = async (r
         { hash }
     )
 
-    return { message: "Item commited successfully" }
+    return { score: userScore }
 }
 
 async function updateTree(tIndex: number, score: number): Promise<string> {
@@ -100,6 +100,9 @@ export const TreasureMap: ICtrl<ITF.OutTreasureMap, InToken> = async (req) => {
     const itemSet = new Set(itemArray)
     const points = ITEMS.filter((value) => !itemSet.has(value.key.toString()))
 
-    return { points }
+    const result = await UserPointModel.findOne( { userId: new Types.ObjectId(_id) } ) as ITF.IUserPoint
+
+    return { points,
+        score : result?.score || 0 }
 }
 
