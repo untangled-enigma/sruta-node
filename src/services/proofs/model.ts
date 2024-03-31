@@ -7,6 +7,7 @@ const ProofSchema = new Schema<ITF.IProof>(
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
     root: { type: String, required:true },
     fileUrl: { type: String, required: false },
+    status: {type: String, enum: ITF.StatusEnum.Values }
   },
   Plugins.Mongo.Normalize()
 );

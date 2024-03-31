@@ -11,10 +11,10 @@ export const RequestProof = {
     onRequest: (f) => f.jwtVerify(),
   } as RouteOptions;
 
-export const GetProof = {
-    method: "POST",
-    url: "/api/get-proof",
-    handler: Controller.GetScoreProof,
-    schema: Schemas.GetProofDetails ,
-    onRequest: (f) => f.jwtVerify(),
-  } as RouteOptions;
+// export const GetProof = {
+//     method: "POST",
+//     url: "/api/get-proofs",
+//     handler: Controller.GetScoreProof,
+//     schema: Schemas.GetProofDetails ,
+//     onRequest: (f) => f.jwtVerify(),
+//   } as RouteOptions;
