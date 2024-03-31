@@ -43,7 +43,7 @@ export const Login: ICtrl<ITF.OutRegister, ITF.InLogin> = async (req) => {
     nonce = user.nonce
   }
 
-  const verifyBody = {
+  const verifyBody:any = {
     data: nonce.toString(),
     publicKey,
     signature: body.signature
