@@ -22,7 +22,7 @@ const ITEMS = [
     { x: -2000, y: 2100, key: 13 },
 ]
 
-let ScoreTree: any;
+export let ScoreTree: any;
 
 export const CommitTreasure: ICtrl<ITF.OutCommitItems, ITF.InCommitItems> = async (req) => {
     //extract user
@@ -71,7 +71,7 @@ async function updateTree(tIndex: number, score: number): Promise<string> {
 }
 
 
-async function constructTree() {
+export async function constructTree() {
     const o1js = await import("o1js");
     ScoreTree = new o1js.MerkleMap()
     //fetch all the scores
