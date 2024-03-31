@@ -19,9 +19,13 @@ export const OutRequestProof = z.object({
 })
 export type OutRequestProof = z.infer<typeof OutRequestProof>;
 
-
-
 export const OutProofDetails = z.object({
-    createdAt: z.string().optional(),
-    updatedAt: z.string().optional(),
+    "proofs" : z.array(Proof.omit({
+        userId: true,
+        status : true
+    }).extend({
+        status : z.string()
+    }))
 })
+export type OutProofDetails = z.infer<typeof OutProofDetails>;
+

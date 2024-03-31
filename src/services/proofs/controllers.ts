@@ -21,8 +21,8 @@ export const RequestScoreProof: ICtrl<ITF.OutRequestProof, InToken> = async (req
         await constructTree()
     }
 
-    const user = await UserModel.findById( { _id : new Types.ObjectId(_id) } ) as IUser
-    if (!user) {  
+    const user = await UserModel.findById({ _id: new Types.ObjectId(_id) }) as IUser
+    if (!user) {
         throw new Error("User not found")
     }
 
@@ -53,9 +53,9 @@ export const RequestScoreProof: ICtrl<ITF.OutRequestProof, InToken> = async (req
             root: ScoreTree.getRoot()
         })
 
-        scoreEngine.checkScore(sInput, ScoreTree.getWitness(userField)).then((proof:any)=> {
-           //@ts-ignore 
-          uploadToStorage(proof, newReq._id, root, user.tIndex?.toString() )
+        scoreEngine.checkScore(sInput, ScoreTree.getWitness(userField)).then((proof: any) => {
+            //@ts-ignore 
+            uploadToStorage(proof, newReq._id, root, user.tIndex?.toString())
         })
 
     }
@@ -65,7 +65,7 @@ export const RequestScoreProof: ICtrl<ITF.OutRequestProof, InToken> = async (req
 }
 
 
-function uploadToStorage(fileData: any, docId: any, root:string, tIndex:string) {
+function uploadToStorage(fileData: any, docId: any, root: string, tIndex: string) {
 
     const formData = new FormData();
 
@@ -73,8 +73,8 @@ function uploadToStorage(fileData: any, docId: any, root:string, tIndex:string) 
     const jsonString = JSON.stringify(fileData);
     const blob = new Blob([jsonString], { type: 'application/json' });
 
-    formData.append("file", blob, `proof-${tIndex}}-${root}` );
-    formData.append("folderId", "d37509cb-9613-4883-8011-fba1694be444"); 
+    formData.append("file", blob, `proof-${tIndex}}-${root}`);
+    formData.append("folderId", "d37509cb-9613-4883-8011-fba1694be444");
 
     fetch('https://store1.gofile.io/contents/uploadfile', {
         method: 'POST',
@@ -84,13 +84,35 @@ function uploadToStorage(fileData: any, docId: any, root:string, tIndex:string) 
         body: formData
     })
         .then(response => response.json())
-        .then( async (data) => {
-            await ProofModel.findOneAndUpdate({ "_id" :  new Types.ObjectId(docId) },{
-                fileUrl : data.data.downloadPage,
+        .then(async (data) => {
+            await ProofModel.findOneAndUpdate({ "_id": new Types.ObjectId(docId) }, {
+                fileUrl: data.data.downloadPage,
                 status: ITF.StatusEnum.enum["DONE"]
-            } )
+            })
 
         })
         .catch(error => console.error(error));
 
+}
+
+
+export const GetScoreProof: ICtrl<ITF.OutProofDetails, InToken> = async (req) => {
+    const { authorization } = req.headers;
+    const { _id } = Utils.JWT.extractJwtDetails(Utils.JWT.Decode(authorization ?? ""))
+
+    let result = await ProofModel.find({ userId: new Types.ObjectId(_id) }).select("-userId -_id")
+
+    const proofs = []
+
+    for (var i = 0; i < result.length; i++) {
+        proofs.push({
+            root: result[i].root,
+            status: result[i].status,
+            fileUrl: result[i].fileUrl,
+            createdAt: result[i].createdAt.toDateString(),
+            updatedAt: result[i].updatedAt.toDateString(),
+        })
+    }
+
+    return { proofs }
 }
