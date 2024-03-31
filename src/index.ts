@@ -49,7 +49,7 @@ const start = async () => {
 
   //compile zk program
   console.time("zkProgram Compile")
-  // await zkCompilation()
+  await zkCompilation()
   console.timeEnd("zkProgram Compile")
 
   await Fastify.listen({ port: CONFIG.APP.PORT, host: CONFIG.GET.HOST_API() });
