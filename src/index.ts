@@ -35,7 +35,23 @@ Fastify.after(() => {
   Services.Register(Fastify);
 });
 
+export let ZKVerificationKey:any;
+export let scoreEngine:any;
+
+async function zkCompilation() {
+  const zkcollector = await import("zkcollector-contract")
+  const result = await zkcollector.scoreEngine.compile();
+  scoreEngine = zkcollector.scoreEngine
+  ZKVerificationKey = result.verificationKey;
+}
+
 const start = async () => {
+
+  //compile zk program
+  console.time("zkProgram Compile")
+  // await zkCompilation()
+  console.timeEnd("zkProgram Compile")
+
   await Fastify.listen({ port: CONFIG.APP.PORT, host: CONFIG.GET.HOST_API() });
   await Fastify.ready();
   Fastify.swagger();
